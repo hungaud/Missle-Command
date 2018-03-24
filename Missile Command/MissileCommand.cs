@@ -24,7 +24,7 @@ namespace MissileCommand {
 
       private Base defense;
       private int numDefenseMissile;
-      private int activeDefMissile = 0;
+      //private int activeDefMissile = 0;
       private int defMissileCounter = 0;
 
       private int numEnemyMissile;
@@ -80,12 +80,11 @@ namespace MissileCommand {
             true);
          Invalidate();
          explode = new System.Media.SoundPlayer();
-         explode.SoundLocation = "explode.wav";       
+         explode.SoundLocation = "explode.wav";
       }
 
       private void initializeGame() {
          if (gameLevel == 1) {
-
             defenseSetting();
             citySetting();
          }
@@ -101,10 +100,7 @@ namespace MissileCommand {
          } else {
             constantSpeed = true;
          }
-
-         
          defense = new Base(numDefenseMissile);
-
          if (gameLevel == 1) {
             Array.Clear(city, 0, city.Length);
             city = new City[numCities];
@@ -122,10 +118,7 @@ namespace MissileCommand {
             numEnemyMissile = 30 + gameLevel;
             addEnemyMissile(numEnemyMissile);
          }
-
-
          wt.Enabled = true;
-
          Invalidate();
       }
 
@@ -146,7 +139,6 @@ namespace MissileCommand {
          if (currScore >= 10000) {
             extraCity();
          }
-
          checkDef();
          checkCity();
          checkMissileExplosion();
@@ -180,7 +172,6 @@ namespace MissileCommand {
             }
          }
       }
-
       private void extraCity() {
          for (int i = 0; i < city.Length; i++) {
             if (city[i].isDestroy) {
@@ -189,7 +180,6 @@ namespace MissileCommand {
             }
          }
       }
-
 
       private void addEnemyMissile(int amount) {
          Random rand = new Random();
@@ -207,10 +197,8 @@ namespace MissileCommand {
                Missile eMissile = new Missile(city[target].getX + 15.0, 615.0, start, 150, gameLevel, Color.Crimson, Color.Yellow, time, false);
                enemyMissile.Add(eMissile);
             }
-
          }
       }
-
 
       private void defenseSetting() {
          if (numMissileComboBox.Text.Equals("15")) {
@@ -224,7 +212,6 @@ namespace MissileCommand {
             ammoLabel.Text = " " + numDefenseMissile.ToString();
          }
       }
-
       private void citySetting() {
          if (cityComboBox.Text.Equals("2")) {
             numCities = 2;
@@ -234,7 +221,6 @@ namespace MissileCommand {
             numCities = 6;
          }
       }
-
 
       private void playButton_Click(object sender, EventArgs e) {
          if (!isPause) {
@@ -249,7 +235,6 @@ namespace MissileCommand {
             settingGroupBox.Enabled = false;
          }
       }
-
       private void MissileCommand_Click(object sender, MouseEventArgs e) {
          if (!gameOver && !isPause) {
             int x = this.PointToClient(Cursor.Position).X;
@@ -266,9 +251,7 @@ namespace MissileCommand {
                }
             }
          }
-
       }
-
 
       private void nextLevel() {
          wt.Stop();
@@ -303,7 +286,6 @@ namespace MissileCommand {
          addEnemyMissile(numEnemyMissile);
          //wt.Stop();
          numCityLost = cityDestroyed;
-
       }
 
       protected async override void OnPaint(PaintEventArgs e) {
@@ -324,7 +306,6 @@ namespace MissileCommand {
          g.FillRectangle(whiteBrush, gameBorder);
          g.FillRectangle(blackBrush, gameRect);
          g.FillRectangle(SpringGreenBrush, groundRect);
-
          drawBase(g, gameX, gameY, SpringGreenBrush);
 
          for (int i = 0; i < numCities; i++) {
@@ -352,8 +333,6 @@ namespace MissileCommand {
                }
             }
          }
-
-
       }
 
       private void drawBase(Graphics g, int gameX, int gameY, SolidBrush SpringGreenBrush) {
@@ -376,7 +355,6 @@ namespace MissileCommand {
             g.DrawLine(headPen, (float) missile.currX, (float) missile.currY + 1, (float) missile.currX, (float) missile.currY);
          else
             g.DrawLine(headPen, (float) missile.currX, (float) missile.currY - 1, (float) missile.currX, (float) missile.currY);
-
       }
 
 
@@ -388,17 +366,17 @@ namespace MissileCommand {
          int num = rand.Next(4);
          switch (num) {
             case 1:
-            brush = new SolidBrush(Color.Red);
-            break;
+               brush = new SolidBrush(Color.Red);
+               break;
             case 2:
-            brush = new SolidBrush(Color.Purple);
-            break;
+               brush = new SolidBrush(Color.Purple);
+               break;
             case 3:
-            brush = new SolidBrush(Color.Cyan);
-            break;
+               brush = new SolidBrush(Color.Cyan);
+               break;
             default:
-            brush = new SolidBrush(Color.White);
-            break;
+               brush = new SolidBrush(Color.White);
+               break;
          }
          if (explosion.getSizeWH() <= 100) {
             explosionBox = new Rectangle(explosion.getX() - explosion.getSizeWH() / 2, explosion.getY() - explosion.getSizeWH() / 2, explosion.getSizeWH(), explosion.getSizeWH());
@@ -419,7 +397,6 @@ namespace MissileCommand {
                   enemyMissile[i].Destroy();
                   enemyMissileDestroy++;
                   //player.Play();
-
                }
             }
          }
@@ -484,51 +461,10 @@ namespace MissileCommand {
          return true;
       }
 
-      private void endGame() {         
+      private void endGame() {
          Invalidate();
          wt.Stop();
          MessageBox.Show("GameOver!");
-
-      }
-
-      private void pauseToolStripMenuItem_Click(object sender, EventArgs e) {
-         playButton_Click(sender, e);
-      }
-
-      private void constantCheckbox_Click(object sender, EventArgs e) {
-         if (increaseCheckbox.Checked) {
-            increaseCheckbox.Checked = false;
-         }
-         constantCheckbox.Checked = true;
-      }
-
-      private void increaseLabel_Click(object sender, EventArgs e) {
-         if (constantCheckbox.Checked) {
-            constantCheckbox.Checked = false;
-         }
-         increaseCheckbox.Checked = true;
-      }
-
-      private void startToolStripMenuItem_Click(object sender, EventArgs e) {
-         playButton_Click(sender, e);
-      }
-
-      private void closeToolStripMenuItem_Click(object sender, EventArgs e) {
-         Application.Exit();
-      }
-
-      private void helpToolStripMenuItem_Click(object sender, EventArgs e) {
-         rulesToolStripMenuItem_Click(sender, e);
-      }
-
-      private void rulesToolStripMenuItem_Click(object sender, EventArgs e) {
-         string str = " Missile Command Game by Atari \n ";
-         str += " destroy the missile before they hit the city \n";
-         MessageBox.Show(str);
-      }
-
-      private void aboutToolStripMenuItem1_Click(object sender, EventArgs e) {
-         MessageBox.Show("Missile Command by Brian and Hung");
       }
    }
 }
